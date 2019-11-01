@@ -1,5 +1,8 @@
+package src;
+
 import java.io.*;
 import java.util.*;
+
 
 
 public class Hangman
@@ -171,24 +174,7 @@ public class Hangman
         return true;
     }
 
-    public static void eliminate(Set<String> dictionary, String guess)
-    {
-        if (guess.length() == 1)
-        {
-            for (int i = 0; i < dictionary.size(); i++) {
-                if (dictionary.get(i).contains(guess)) {
-                    dictionary.remove(i);
-                    i--;
-                }
-            }
-        }
-        else
-        {
-            int wordIndex = dictionary.lastIndexOf(guess);
-            if (wordIndex != -1);
-                dictionary.remove(wordIndex);
-        }
-    }
+
 
     public static void drawHangman(int chancesLeft,String chosenWord,Set<Character> chosenLetters, int size)
     {
