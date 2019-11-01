@@ -4,7 +4,6 @@ import java.util.*;
 
 public class Hangman
 {
-    //I did another version of this project for Prof. Fiore's Program Design class...so I'm okay with working alone. -Max
 
     public static void main(String[] args) throws FileNotFoundException
     {
