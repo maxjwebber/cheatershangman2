@@ -99,7 +99,10 @@ public class Hangman
                         chosenLetters.add(guess.charAt(0));
                     }
                     else {
-                        eliminate(dictionary, guess); // the program eliminates any words containing the letter
+                        if (guess.length() == 1)
+                        {
+                            //TODO: remove all words that have the letter.
+                        }
                         chancesLeft--;
                     }
                 }
