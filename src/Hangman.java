@@ -83,32 +83,37 @@ public class Hangman
         String guess;
         Random rando = new Random();
         String chosenWord = null;
-        int chosenIndex;
         Set<Character> chosenLetters = new HashSet<>();
         boolean wordNotGuessed = true;
+
         drawHangman(chancesLeft,chosenWord,chosenLetters,size);
         do {
             System.out.println("Type a single letter or the whole word to guess:");
             guess = scan.next().toLowerCase();
+
+            //////////////////////////////////////////////////////////////////////////////////
+            //CHEAT MODE the program would not have chosen a word unless absolutely forced to.
+            ///////////////////////////////////////////////////////////////////////////////////
+            // chosenWord is null UNTIL the cheater is FORCED to pick a word
+
             if (chosenWord == null) { //CHEAT MODE the program would not have chosen a word unless absolutely forced to.
-                if (guess.length() == 1) // letter guess
+                if (guess.length() == 1) // User making letter guess
                 {
-                    if (wouldBeEmpty(dictionary, guess)) { // only if the list would otherwise be empty will a word be chosen.
+                    // if the word-list-set would become empty with a set-difference, FORCED to choose word as answer
+                    if (wouldBeEmpty(dictionary, guess)) {
 
                         //TODO: pick a damn word
                         chosenLetters.add(guess.charAt(0));
                     }
                     else {
-                        if (guess.length() == 1)
-                        {
-                            //TODO: remove all words that have the letter.
-                        }
+                        //TODO: SET DIFFERENCE
                         chancesLeft--;
                     }
                 }
                 else if (guess.length() == size) // whole word guess
                 {
-                    eliminate(dictionary, guess); // the program eliminates the word from the list, if it exists.
+                    //TODO:
+                    //eliminate(dictionary, guess); // the program eliminates the word from the list, if it exists.
                     chancesLeft--;
                 }
                 else // invalid guess. won't count against the player :)
@@ -116,7 +121,11 @@ public class Hangman
                     System.out.println("Your guess is the wrong size. Please enter a single letter or a " + size + "-letter word.");
                 }
             }
-            else // NON-CHEAT MODE. only if a word is actually chosen, which is rare.
+
+            /////////////////////////////////////////////////////////////////////////
+            // NON-CHEAT MODE. only if a word is actually chosen, which is rare.
+            /////////////////////////////////////////////////////////////////////////
+            else
                 {
                     if (guess.length() == 1) // letter guess. check to see if our word contains the letter.
                     {
@@ -125,8 +134,6 @@ public class Hangman
                         else
                         {
                             chosenLetters.add(guess.charAt(0));
-                            if (chosenLetters.size() == chosenWord.length())
-                                wordNotGuessed = false;
                         }
                     }
                     else if (guess.length() == size) // whole word guess. the player can win here (hopefully not)
@@ -154,8 +161,9 @@ public class Hangman
         {
             if (chosenWord==null)
             {
-                chosenIndex = rando.nextInt(dictionary.size() + 1);
-                chosenWord = dictionary.get(chosenIndex);
+                //TODO: if the word is not chosen by the end of game, choose a word to be the "answer"
+
+                //chosenWord = dictionary.get(chosenIndex);
             }
             System.out.println("The word was "+chosenWord+".");
             return false;
@@ -163,7 +171,9 @@ public class Hangman
         return true;
     }
 
-    public static Set<String> makeLetterSet (Set<String> universe,char letter){}
+    public static Set<String> makeLetterSet (Set<String> universe,char letter){
+        return null;
+    }
 
     public static boolean wouldBeEmpty(Set<String> dictionary, String guess)
     {
