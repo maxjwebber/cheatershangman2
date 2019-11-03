@@ -163,8 +163,7 @@ public class Hangman
             {
                 // Force choose answer
                 //
-                Object[] chooseTheWord = dictionary.toArray();
-                chosenWord = chooseTheWord[rando.nextInt(dictionary.size()-1)].toString(); // random string
+                chosenWord=forceAnswerChoice(dictionary);
             }
             System.out.println("The word was "+chosenWord+".");
             return false;
@@ -230,6 +229,12 @@ public class Hangman
                     System.out.print("_ ");
             }
         }
+    }
+
+    private static String forceAnswerChoice(Set<String> dictionary){
+        Random rando = new Random();
+        Object[] chooseTheWord = dictionary.toArray();
+        return chooseTheWord[rando.nextInt(dictionary.size()-1)].toString(); // random string
     }
 }
 
