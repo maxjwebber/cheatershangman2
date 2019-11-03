@@ -11,7 +11,7 @@ public class Hangman
     public static void main(String[] args) throws FileNotFoundException
     {
         boolean playAgain;
-        int size;
+        int size, chosenindex;
         char choice;
         int chances;
         Scanner scan = new Scanner(System.in);
@@ -60,7 +60,7 @@ public class Hangman
     }
 
 
-    public static Set<String> buildDictionary(String filename,int wordSize) throws FileNotFoundException
+    private static Set<String> buildDictionary(String filename, int wordSize) throws FileNotFoundException
     {
         Scanner s = new Scanner(new File(filename));
         Set<String> output = new HashSet<>() {
@@ -76,7 +76,7 @@ public class Hangman
         return output;
     }
 
-    public static boolean playGame(Set<String> dictionary, Scanner scan, int size,int chancesLeft)
+    private static boolean playGame(Set<String> dictionary, Scanner scan, int size, int chancesLeft)
     {
         //TODO: array of sets? orrrrrrrr?
 
@@ -161,9 +161,10 @@ public class Hangman
         {
             if (chosenWord==null)
             {
-                //TODO: if the word is not chosen by the end of game, choose a word to be the "answer"
-
-                //chosenWord = dictionary.get(chosenIndex);
+                // Force choose answer
+                //
+                Object[] chooseTheWord = dictionary.toArray();
+                chosenWord = chooseTheWord[rando.nextInt(dictionary.size()-1)].toString(); // random string
             }
             System.out.println("The word was "+chosenWord+".");
             return false;
@@ -175,8 +176,7 @@ public class Hangman
         return null;
     }
 
-    public static boolean wouldBeEmpty(Set<String> dictionary, String guess)
-    {
+    private static boolean wouldBeEmpty(Set<String> dictionary, String guess) {
         for (String word: dictionary) // if a word in the list doesn't contain the letter, then the list won't be empty
         {
             if (!word.contains(guess))
@@ -187,9 +187,7 @@ public class Hangman
         return true;
     }
 
-
-
-    public static void drawHangman(int chancesLeft,String chosenWord,Set<Character> chosenLetters, int size)
+    private static void drawHangman(int chancesLeft, String chosenWord, Set<Character> chosenLetters, int size)
     {
         System.out.print(" ___\n|   |\n|   ");
         if (chancesLeft < 6) // the head
