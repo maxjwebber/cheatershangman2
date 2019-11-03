@@ -11,7 +11,7 @@ public class Hangman
     public static void main(String[] args) throws FileNotFoundException
     {
         boolean playAgain;
-        int size, chosenindex;
+        int size;
         char choice;
         int chances;
         Scanner scan = new Scanner(System.in);
@@ -35,7 +35,7 @@ public class Hangman
                     System.out.println("Come on, give yourself at least one chance.");
             }while (chances<1);
             System.out.println("Ok. I'm thinking of a word with "+size+" letters. You have "+chances+"chances.");
-            Set<String> dictionary = buildDictionary("words.txt",size);
+            Set<String> dictionary = buildDictionary(size);
             if (playGame(dictionary,scan,size,chances)) // returns true if win, false if loss.
                 System.out.println("Wow...you won. That was unexpected.");
             else
@@ -60,17 +60,18 @@ public class Hangman
     }
 
 
-    private static Set<String> buildDictionary(String filename, int wordSize) throws FileNotFoundException
+    private static Set<String> buildDictionary(int wordSize) throws FileNotFoundException
     {
-        Scanner s = new Scanner(new File(filename));
+        Scanner s = new Scanner(new File("words.txt"));
         Set<String> output = new HashSet<>() {
         };
         String current;
         while (s.hasNext())
         {
             current = s.nextLine();
-            if (current.length()==wordSize)
-            output.add(current);
+            if (current.length()==wordSize) {
+                output.add(current);
+            }
         }
         s.close();
         return output;
@@ -86,7 +87,7 @@ public class Hangman
         Set<Character> chosenLetters = new HashSet<>();
         boolean wordNotGuessed = true;
 
-        drawHangman(chancesLeft,chosenWord,chosenLetters,size);
+        drawHangman(chancesLeft, null,chosenLetters,size);
         do {
             System.out.println("Type a single letter or the whole word to guess:");
             guess = scan.next().toLowerCase();
@@ -102,18 +103,27 @@ public class Hangman
                     // if the word-list-set would become empty with a set-difference, FORCED to choose word as answer
                     if (wouldBeEmpty(dictionary, guess)) {
 
-                        //TODO: pick a damn word
+                        chosenWord = forceAnswerChoice(dictionary);
                         chosenLetters.add(guess.charAt(0));
                     }
                     else {
-                        //TODO: SET DIFFERENCE
+                        //TODO:     SET DIFFERENCE
+                        String finalGuess = guess; // this makes the variable "more final", aka less-volatile
+
+                        // lambda predicate filter: if string x contains
+                        // the single character varaible final guess, remove
+                        dictionary.removeIf(x->x.contains(finalGuess));
+
+                        // uncomment to test output
+                        // dictionary.forEach(System.out::println);
                         chancesLeft--;
                     }
                 }
                 else if (guess.length() == size) // whole word guess
                 {
-                    //TODO:
-                    //eliminate(dictionary, guess); // the program eliminates the word from the list, if it exists.
+                    // Returns true if this set contained the element (or equivalently, if this set changed as a result of the call).
+                    // (This set will not contain the element once the call returns.)
+                    dictionary.remove(guess);
                     chancesLeft--;
                 }
                 else // invalid guess. won't count against the player :)
@@ -186,8 +196,7 @@ public class Hangman
         return true;
     }
 
-    private static void drawHangman(int chancesLeft, String chosenWord, Set<Character> chosenLetters, int size)
-    {
+    private static void drawHangman(int chancesLeft, String chosenWord, Set<Character> chosenLetters, int size) {
         System.out.print(" ___\n|   |\n|   ");
         if (chancesLeft < 6) // the head
         {
