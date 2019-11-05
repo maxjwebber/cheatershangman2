@@ -34,7 +34,7 @@ public class Hangman
                 if (chances<1)
                     System.out.println("Come on, give yourself at least one chance.");
             }while (chances<1);
-            System.out.println("Ok. I'm thinking of a word with "+size+" letters. You have "+chances+"chances.");
+            System.out.println("Ok. I'm thinking of a word with "+size+" letters. You have "+chances+" chances.");
             Set<String> dictionary = buildDictionary(size);
             if (playGame(dictionary,scan,size,chances)) // returns true if win, false if loss.
                 System.out.println("Wow...you won. That was unexpected.");
