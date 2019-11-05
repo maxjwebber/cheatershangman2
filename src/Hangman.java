@@ -148,6 +148,13 @@ public class Hangman
                     else
                     {
                         chosenLetters.add(guess.charAt(0));
+                        for (int i = 0; i < chosenWord.length(); i++)
+                        {
+                            if(!chosenLetters.contains(chosenWord.charAt(i)))
+                                break;
+                            if (i==chosenWord.length()-1)
+                                wordNotGuessed = false;
+                        }
                     }
                 }
                 else if (guess.length() == size) // whole word guess. the player can win here (hopefully not)
