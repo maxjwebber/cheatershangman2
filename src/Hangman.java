@@ -48,11 +48,11 @@ public class Hangman
                 switch (choice)
                 {
                     case 'Y': playAgain = true;
-                    break;
+                        break;
                     case 'N': System.out.println("Goodbye!");
-                    break;
+                        break;
                     default: System.out.println("Invalid entry. Enter Y to play again or N to quit.");
-                    break;
+                        break;
                 }
             }while (choice != 'Y' && choice != 'N');
         }while(playAgain);
@@ -79,8 +79,6 @@ public class Hangman
 
     private static boolean playGame(Set<String> dictionary, Scanner scan, int size, int chancesLeft)
     {
-
-
         String guess;
         Random rando = new Random();
         String chosenWord = null;
@@ -139,40 +137,40 @@ public class Hangman
             // NON-CHEAT MODE. only if a word is actually chosen, which is rare.
             /////////////////////////////////////////////////////////////////////////
             else
+            {
+                if (guess.length() == 1) // letter guess. check to see if our word contains the letter.
                 {
-                    if (guess.length() == 1) // letter guess. check to see if our word contains the letter.
+                    if (chosenWord.indexOf(guess.charAt(0)) == -1)
                     {
-                        if (chosenWord.indexOf(guess.charAt(0)) == -1)
-                        {
-                            chancesLeft--;
-                            wrongGuesses.add(guess);
-                        }
-                        else
-                        {
-                            chosenLetters.add(guess.charAt(0));
-                        }
+                        chancesLeft--;
+                        wrongGuesses.add(guess);
                     }
-                    else if (guess.length() == size) // whole word guess. the player can win here (hopefully not)
+                    else
                     {
-                        if (guess.equals(chosenWord))
-                        {
-                            wordNotGuessed = false;
-                            chosenLetters.clear();
-                            for (int i = 0; i < size; i++)
-                            {
-                                chosenLetters.add(chosenWord.charAt(i));
-                            }
-                        }
-                        else {
-                            chancesLeft--;
-                            wrongGuesses.add(guess);
-                        }
-                    }
-                    else // invalid guess. won't count against the player :)
-                    {
-                        System.out.println("Your guess is the wrong size. Please enter a single letter or a " + size + "-letter word.");
+                        chosenLetters.add(guess.charAt(0));
                     }
                 }
+                else if (guess.length() == size) // whole word guess. the player can win here (hopefully not)
+                {
+                    if (guess.equals(chosenWord))
+                    {
+                        wordNotGuessed = false;
+                        chosenLetters.clear();
+                        for (int i = 0; i < size; i++)
+                        {
+                            chosenLetters.add(chosenWord.charAt(i));
+                        }
+                    }
+                    else {
+                        chancesLeft--;
+                        wrongGuesses.add(guess);
+                    }
+                }
+                else // invalid guess. won't count against the player :)
+                {
+                    System.out.println("Your guess is the wrong size. Please enter a single letter or a " + size + "-letter word.");
+                }
+            }
             drawHangman(chancesLeft,chosenWord,chosenLetters,size);
             System.out.println("These guesses were wrong: "+wrongGuesses);
         }while (chancesLeft != 0 && wordNotGuessed);
@@ -234,7 +232,7 @@ public class Hangman
         {
             for (int i = 0; i < size; i++)
             {
-            System.out.print("_ ");
+                System.out.print("_ ");
             }
         }
         else
