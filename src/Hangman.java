@@ -3,7 +3,8 @@ package src;
 import java.io.*;
 import java.util.*;
 
-
+//Ben Blouin & Max Webber
+//CIS 2168, Dr. Rosen
 
 public class Hangman
 {
