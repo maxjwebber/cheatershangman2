@@ -107,11 +107,11 @@ public class Hangman
                         chosenLetters.add(guess.charAt(0));
                     }
                     else {
-                        //TODO:     SET DIFFERENCE
+
                         String finalGuess = guess; // this makes the variable "more final", aka less-volatile
 
                         // lambda predicate filter: if string x contains
-                        // the single character varaible final guess, remove
+                        // the single character variable final guess, remove
                         dictionary.removeIf(x->x.contains(finalGuess));
 
                         // uncomment to test output
