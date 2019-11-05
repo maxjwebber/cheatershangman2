@@ -68,7 +68,7 @@ public class Hangman
         String current;
         while (s.hasNext())
         {
-            current = s.nextLine();
+            current = s.nextLine().toLowerCase();
             if (current.length()==wordSize) {
                 output.add(current);
             }
