@@ -250,7 +250,7 @@ public class Hangman
     private static String forceAnswerChoice(Set<String> dictionary){
         Random rando = new Random();
         Object[] chooseTheWord = dictionary.toArray();
-        return chooseTheWord[rando.nextInt(dictionary.size()-1)].toString(); // random string
+        return chooseTheWord[rando.nextInt(dictionary.size())].toString(); // random string
     }
 }
 
