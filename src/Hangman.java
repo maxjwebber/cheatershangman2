@@ -79,11 +79,12 @@ public class Hangman
 
     private static boolean playGame(Set<String> dictionary, Scanner scan, int size, int chancesLeft)
     {
-        //TODO: array of sets? orrrrrrrr?
+
 
         String guess;
         Random rando = new Random();
         String chosenWord = null;
+        Set<String> wrongGuesses = new HashSet<>();
         Set<Character> chosenLetters = new HashSet<>();
         boolean wordNotGuessed = true;
 
@@ -117,6 +118,7 @@ public class Hangman
                         // uncomment to test output
                         // dictionary.forEach(System.out::println);
                         chancesLeft--;
+                        wrongGuesses.add(finalGuess);
                     }
                 }
                 else if (guess.length() == size) // whole word guess
@@ -124,6 +126,7 @@ public class Hangman
                     // Returns true if this set contained the element (or equivalently, if this set changed as a result of the call).
                     // (This set will not contain the element once the call returns.)
                     dictionary.remove(guess);
+                    wrongGuesses.add(guess);
                     chancesLeft--;
                 }
                 else // invalid guess. won't count against the player :)
@@ -140,7 +143,10 @@ public class Hangman
                     if (guess.length() == 1) // letter guess. check to see if our word contains the letter.
                     {
                         if (chosenWord.indexOf(guess.charAt(0)) == -1)
+                        {
                             chancesLeft--;
+                            wrongGuesses.add(guess);
+                        }
                         else
                         {
                             chosenLetters.add(guess.charAt(0));
@@ -157,8 +163,10 @@ public class Hangman
                                 chosenLetters.add(chosenWord.charAt(i));
                             }
                         }
-                        else
+                        else {
                             chancesLeft--;
+                            wrongGuesses.add(guess);
+                        }
                     }
                     else // invalid guess. won't count against the player :)
                     {
@@ -166,6 +174,7 @@ public class Hangman
                     }
                 }
             drawHangman(chancesLeft,chosenWord,chosenLetters,size);
+            System.out.println("These guesses were wrong: "+wrongGuesses);
         }while (chancesLeft != 0 && wordNotGuessed);
         if (wordNotGuessed)
         {
