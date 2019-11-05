@@ -196,10 +196,6 @@ public class Hangman
         return true;
     }
 
-    public static Set<String> makeLetterSet (Set<String> universe,char letter){
-        return null;
-    }
-
     private static boolean wouldBeEmpty(Set<String> dictionary, String guess) {
         for (String word: dictionary) // if a word in the list doesn't contain the letter, then the list won't be empty
         {
